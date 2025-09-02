@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Positive_Quantity</fullName>
+    <active>true</active>
+    <description>Ensures order quantity is greater than zero</description>
+    <errorConditionFormula>Quantity__c &lt;= 0</errorConditionFormula>
+    <errorMessage>Order quantity must be greater than zero</errorMessage>
+    <errorDisplayField>Quantity__c</errorDisplayField>
+</ValidationRule>

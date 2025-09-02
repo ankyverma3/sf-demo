@@ -1,0 +1,85 @@
+<template>
+    <lightning-card title="Product Catalog" icon-name="standard:product">
+        <div class="slds-p-around_medium">
+            <!-- Search and Filter Controls -->
+            <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_medium">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                    <lightning-input
+                        type="search"
+                        label="Search Products"
+                        placeholder="Search by name or SKU..."
+                        value={searchTerm}
+                        onchange={handleSearchChange}>
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                    <lightning-combobox
+                        name="category"
+                        label="Category Filter"
+                        value={selectedCategory}
+                        placeholder="Select category"
+                        options={categoryOptions}
+                        onchange={handleCategoryChange}>
+                    </lightning-combobox>
+                </div>
+            </div>
+
+            <!-- Header with Product Count and Refresh Button -->
+            <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_medium">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                    <h2 class="slds-text-heading_medium">
+                        Products ({productCount})
+                    </h2>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-text-align_right">
+                    <lightning-button 
+                        label="Refresh" 
+                        variant="neutral" 
+                        onclick={handleRefresh}
+                        disabled={isLoading}
+                        icon-name="utility:refresh">
+                    </lightning-button>
+                </div>
+            </div>
+
+            <!-- Product Data Table -->
+            <div class="slds-m-top_medium">
+                <template if:true={hasProducts}>
+                    <lightning-datatable
+                        data={products}
+                        columns={columns}
+                        key-field="Id"
+                        hide-checkbox-column="true"
+                        show-row-number-column="true"
+                        resize-column-disabled="true">
+                    </lightning-datatable>
+                </template>
+                
+                <template if:false={hasProducts}>
+                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info">
+                        <span class="slds-assistive-text">Info</span>
+                        <span class="slds-icon_container slds-icon-utility-info slds-m-right_x-small">
+                            <lightning-icon icon-name="utility:info" size="x-small"></lightning-icon>
+                        </span>
+                        <template if:true={searchTerm}>
+                            No products found matching your search criteria.
+                        </template>
+                        <template if:false={searchTerm}>
+                            No products available in the catalog.
+                        </template>
+                    </div>
+                </template>
+
+                <template if:true={products.error}>
+                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error">
+                        <span class="slds-assistive-text">Error</span>
+                        <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small">
+                            <lightning-icon icon-name="utility:error" size="x-small"></lightning-icon>
+                        </span>
+                        Failed to load products
+                    </div>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>

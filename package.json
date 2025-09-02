@@ -1,0 +1,38 @@
+{
+  "name": "sf-demo",
+  "version": "1.0.0",
+  "description": "Salesforce Demo Project with real-world functionality",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "./scripts/deploy.sh",
+    "test": "sf apex run test",
+    "lint": "sf scanner run --target force-app",
+    "format": "prettier --write \"**/*.{js,html,css,json,md}\"",
+    "validate": "sf project deploy validate",
+    "build": "sf project deploy start --dry-run"
+  },
+  "keywords": [
+    "salesforce",
+    "apex",
+    "lightning-web-components",
+    "demo",
+    "ecommerce",
+    "order-management"
+  ],
+  "author": "Salesforce Demo Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@salesforce/eslint-config-lwc": "^3.0.0",
+    "@salesforce/eslint-plugin-aura": "^1.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^2.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/sf-demo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/sf-demo/issues"
+  },
+  "homepage": "https://github.com/your-org/sf-demo#readme"
+}
