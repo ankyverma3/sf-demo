@@ -112,11 +112,34 @@ try {
     insert orders;
     System.debug('Created ' + orders.size() + ' orders');
     
+    // Create some test notifications
+    List<Notification__c> notifications = new List<Notification__c>();
+    
+    notifications.add(new Notification__c(
+        Title__c = 'Welcome to Salesforce Demo',
+        Message__c = 'Welcome to the Salesforce Demo application! Explore the features and functionality.',
+        Type__c = 'Info',
+        User__c = UserInfo.getUserId(),
+        Is_Read__c = false
+    ));
+    
+    notifications.add(new Notification__c(
+        Title__c = 'System Maintenance',
+        Message__c = 'Scheduled system maintenance will occur tonight from 2 AM to 4 AM EST.',
+        Type__c = 'Info',
+        User__c = UserInfo.getUserId(),
+        Is_Read__c = true
+    ));
+    
+    insert notifications;
+    System.debug('Created ' + notifications.size() + ' notifications');
+    
     System.debug('✅ Test data creation completed successfully!');
     System.debug('📊 Summary:');
     System.debug('- Customers: ' + customers.size());
     System.debug('- Products: ' + products.size());
     System.debug('- Orders: ' + orders.size());
+    System.debug('- Notifications: ' + notifications.size());
     
 } catch (Exception e) {
     System.debug('❌ Error creating test data: ' + e.getMessage());

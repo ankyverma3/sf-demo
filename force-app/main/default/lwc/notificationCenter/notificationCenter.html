@@ -1,0 +1,102 @@
+<template>
+    <lightning-card title="Notification Center" icon-name="standard:notification">
+        <div class="slds-p-around_medium">
+            <!-- Header with counts and actions -->
+            <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_medium">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                    <h2 class="slds-text-heading_medium">
+                        Notifications ({notificationCount})
+                        <template if:true={unreadCount}>
+                            <span class="slds-badge slds-badge_lightest">
+                                {unreadCount} unread
+                            </span>
+                        </template>
+                    </h2>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-3 slds-text-align_right">
+                    <lightning-button-group>
+                        <lightning-button 
+                            label="Show Unread Only" 
+                            variant="neutral" 
+                            onclick={handleToggleUnreadOnly}
+                            disabled={isLoading}>
+                        </lightning-button>
+                        <template if:true={showMarkAllButton}>
+                            <lightning-button 
+                                label="Mark All Read" 
+                                variant="brand" 
+                                onclick={handleMarkAllAsRead}
+                                disabled={isLoading}>
+                            </lightning-button>
+                        </template>
+                        <lightning-button 
+                            label="Refresh" 
+                            variant="neutral" 
+                            onclick={handleRefresh}
+                            disabled={isLoading}
+                            icon-name="utility:refresh">
+                        </lightning-button>
+                    </lightning-button-group>
+                </div>
+            </div>
+
+            <!-- Filter indicator -->
+            <template if:true={showUnreadOnly}>
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info slds-m-bottom_medium">
+                    <span class="slds-assistive-text">Info</span>
+                    <span class="slds-icon_container slds-icon-utility-info slds-m-right_x-small">
+                        <lightning-icon icon-name="utility:info" size="x-small"></lightning-icon>
+                    </span>
+                    Showing unread notifications only
+                </div>
+            </template>
+
+            <!-- Notifications Data Table -->
+            <div class="slds-m-top_medium">
+                <template if:true={hasNotifications}>
+                    <lightning-datatable
+                        data={notifications}
+                        columns={columns}
+                        key-field="Id"
+                        hide-checkbox-column="true"
+                        show-row-number-column="true"
+                        onrowaction={handleRowAction}
+                        row-actions={rowActions}>
+                    </lightning-datatable>
+                </template>
+                
+                <template if:false={hasNotifications}>
+                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info">
+                        <span class="slds-assistive-text">Info</span>
+                        <span class="slds-icon_container slds-icon-utility-info slds-m-right_x-small">
+                            <lightning-icon icon-name="utility:info" size="x-small"></lightning-icon>
+                        </span>
+                        <template if:true={showUnreadOnly}>
+                            No unread notifications
+                        </template>
+                        <template if:false={showUnreadOnly}>
+                            No notifications available
+                        </template>
+                    </div>
+                </template>
+
+                <template if:true={notifications.error}>
+                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error">
+                        <span class="slds-assistive-text">Error</span>
+                        <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small">
+                            <lightning-icon icon-name="utility:error" size="x-small"></lightning-icon>
+                        </span>
+                        Failed to load notifications
+                    </div>
+                </template>
+            </div>
+
+            <!-- Loading spinner -->
+            <template if:true={isLoading}>
+                <div class="slds-is-relative slds-m-top_medium">
+                    <lightning-spinner alternative-text="Loading..." size="small"></lightning-spinner>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
