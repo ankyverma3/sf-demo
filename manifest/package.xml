@@ -18,6 +18,10 @@
     </types>
     <types>
         <members>*</members>
+        <name>ValidationRule</name>
+    </types>
+    <types>
+        <members>*</members>
         <name>Flow</name>
     </types>
     <types>

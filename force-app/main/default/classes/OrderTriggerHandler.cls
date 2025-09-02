@@ -248,12 +248,17 @@ public with sharing class OrderTriggerHandler {
             }
         }
         
-        // Update product stock
+        // Update product stock and check for low stock alerts
         List<Product__c> productsToUpdate = new List<Product__c>();
         for (Id productId : stockChanges.keySet()) {
             Product__c product = new Product__c(Id = productId);
             product.Stock_Quantity__c = stockChanges.get(productId);
             productsToUpdate.add(product);
+            
+            // Junior dev mistake: Checking low stock in trigger instead of using async processing
+            if (product.Stock_Quantity__c < 10) {
+                OrderNotificationService.sendLowStockAlert(productId, (Integer)product.Stock_Quantity__c);
+            }
         }
         
         if (!productsToUpdate.isEmpty()) {
@@ -291,6 +296,8 @@ public with sharing class OrderTriggerHandler {
             Order__c oldOrder = oldOrdersMap.get(order.Id);
             if (order.Status__c != oldOrder.Status__c) {
                 statusChangedOrders.add(order);
+                // Junior dev mistake: Calling service method in loop instead of bulk processing
+                OrderNotificationService.sendStatusChangeNotification(order.Id, oldOrder.Status__c, order.Status__c);
             }
         }
         
