@@ -1,0 +1,35 @@
+# Salesforce DX
+.sfdx/
+.sf/
+sfdx-source/
+
+# Salesforce cache
+.sfdx/tools/
+.sfdx/orgs/
+.sfdx/projects/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
